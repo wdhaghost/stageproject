@@ -13,9 +13,11 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body>
-        <div class="font-sans text-gray-900 antialiased">
+    <body class="flex flex-col h-screen w-screen bg-main p-4">
+    <header class="container flex flex-wrap justify-between mb-8">
+        <h1 class="text-5xl font-bold">Senar</h1>
+    </header>
             {{ $slot }}
-        </div>
+      
     </body>
 </html>
