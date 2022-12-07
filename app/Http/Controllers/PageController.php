@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -15,11 +16,12 @@ class PageController extends Controller
      */
     public function index()
     {
-        //
-        $content =[
-            'pages'=>Page::all()
+        //get all the pages
+        $content = [
+            'pages' => Page::all()
         ];
-        return view('homepage',$content);
+        //load the view with the pages content
+        return view('pages.index', $content);
     }
 
     /**
@@ -30,10 +32,7 @@ class PageController extends Controller
     public function create()
     {
         //
-        $content =[
-            'pages'=>Page::all()
-        ];
-        return view('form',$content);
+        return view('pages.create');
     }
 
     /**
@@ -45,14 +44,13 @@ class PageController extends Controller
     public function store(Request $request)
     {
         //
-        $page=new Page;
-        $page->title=$request->input('title');
-        $page->description=$request->input('description');
-        $page->order=$request->input('order');
-        $page->link="link";
+        $page = new Page;
+        $page->title = $request->input('title');
+        $page->description = $request->input('description');
+        $page->order = $request->input('order');
+        $page->link = "link";
         $page->save();
-        return Redirect::route('homepage');
-    
+        return Redirect::route('pages.create');
     }
 
     /**
@@ -64,6 +62,14 @@ class PageController extends Controller
     public function show($id)
     {
         //
+        $page=Page::find($id);
+        $articles=Article::all();
+        $content=[
+            'page'=>$page,
+            'articles'=>$articles
+        ];
+    
+        return view('pages.show',$content);
     }
 
     /**
@@ -75,6 +81,11 @@ class PageController extends Controller
     public function edit($id)
     {
         //
+        $page = Page::find($id);
+        $content = [
+            'page' => $page
+        ];
+        return view('pages.edit', $content);
     }
 
     /**
@@ -87,6 +98,12 @@ class PageController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $page=Page::find($id);
+        $page->title=$request->title;
+        $page->description=$request->description;
+        $page->order=$request->order;
+        $page->update();
+        return Redirect::route('pages.index');
     }
 
     /**
@@ -98,5 +115,8 @@ class PageController extends Controller
     public function destroy($id)
     {
         //
+        $page=Page::find($id);
+        $page->delete();
+        return Redirect::route('pages.index');
     }
 }

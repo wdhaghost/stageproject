@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -24,6 +27,7 @@ class ArticleController extends Controller
     public function create()
     {
         //
+        return view('articles.create');
     }
 
     /**
@@ -34,7 +38,16 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //   
+        $article = new Article();
+        $article->title = $request->input('title');
+        $article->description = $request->input('description');
+        $article->order = $request->input('order');
+        $article->pages()->associate($request->page);
+        $path=$request->file('link')->store('articles');
+        $article->link = $path;
+        $article->save();
+        return Redirect::route('articles.create');
     }
 
     /**
@@ -57,6 +70,11 @@ class ArticleController extends Controller
     public function edit($id)
     {
         //
+        $article=Article::find($id);
+        $content = [
+            'article' => $article
+        ];
+        return view('articles.edit', $content);
     }
 
     /**
@@ -80,5 +98,9 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         //
+        $article=Article::find($id);
+        Storage::delete($article->link);
+        $article->delete();
+        return Redirect::route('pages.index');
     }
 }

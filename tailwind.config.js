@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -9,15 +10,18 @@ module.exports = {
     ],
 
     theme: {
-        colors:{
-            'main':'#976DF2',
-            'secondary':'#2D1973',
-            'third':'#1A1040'
-        },
         extend: {
+            colors:{
+                'main':'#976DF2',
+                'secondary':'#2D1973',
+                'third':'#1A1040'
+            },
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+            borderRadius:{
+                '4xl':'2rem'
+            }
         },
     },
 
