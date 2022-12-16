@@ -66,7 +66,7 @@ class PageController extends Controller
         $articles=Article::all();
         $content=[
             'page'=>$page,
-            'articles'=>$articles
+            'articles'=>$articles->pages
         ];
     
         return view('pages.show',$content);
@@ -117,6 +117,6 @@ class PageController extends Controller
         //
         $page=Page::find($id);
         $page->delete();
-        return Redirect::route('pages.index');
+        return Redirect::route('dashboard');
     }
 }

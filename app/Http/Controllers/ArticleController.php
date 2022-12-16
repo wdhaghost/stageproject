@@ -16,7 +16,12 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        ////get all the articles
+        $content = [
+            'articles' => Article::all()
+        ];
+        //load the view with the pages content
+        return view('articles.index', $content);
     }
 
     /**
@@ -44,7 +49,7 @@ class ArticleController extends Controller
         $article->description = $request->input('description');
         $article->order = $request->input('order');
         $article->pages()->associate($request->page);
-        $path=$request->file('link')->store('articles');
+        $path= Storage::putFile("img",$request->file("link"));
         $article->link = $path;
         $article->save();
         return Redirect::route('articles.create');

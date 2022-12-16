@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Social;
 use Illuminate\Http\Request;
 
 class SocialController extends Controller
@@ -13,7 +14,12 @@ class SocialController extends Controller
      */
     public function index()
     {
-        //
+        //get all the articles
+        $content = [
+            'socials' => Social::all()
+        ];
+        //load the view with the pages content
+        return view('socials.index', $content);
     }
 
     /**
@@ -24,6 +30,7 @@ class SocialController extends Controller
     public function create()
     {
         //
+        return view('socials.form');
     }
 
     /**

@@ -26,7 +26,7 @@
         </nav>
     </header>
     <h2 class="text-4xl">
-        Accueil
+        {{page->title}}
     </h2>
     <section class="flex flex-col grow min-h-[400px]">
 
@@ -53,8 +53,8 @@
                     <p>1</p>
                 </div>
             </div>
-            @if(!empty($page->articles))
-            @foreach ($page->articles as $article)
+            @if(!empty($articles->pages))
+            @foreach ($articles->pages as $article)
             <div class="inline-block w-full h-full rounded-4xl snap-start">
                 <div class="bg-secondary w-full  h-full rounded-4xl px-4 py-2">
                     <h3 class="slide-ttl">{{$article->title}}</h3>

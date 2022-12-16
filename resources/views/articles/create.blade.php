@@ -32,11 +32,11 @@
                 
                 <div class="flex flex-col text-white mt-8">
                     <label for="link">Image de l'article</label>
-                    <input class="text white rounded-2xl p-2" type="file" accept="image/png, image/jpeg" name="link" id="link">
+                    <input class="text white rounded-2xl p-2" name="link" id="link" type="file" accept="image/png, image/jpeg" >
                 </div>
                 
                 <div class="flex flex-col items-center justify-end mt-8">
-                    <x-primary-button>
+                    <x-primary-button> 
                         {{ __('Ajouter') }}
                     </x-primary-button>
                 </div>
