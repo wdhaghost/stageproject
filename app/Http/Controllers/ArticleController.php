@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -31,8 +32,11 @@ class ArticleController extends Controller
      */
     public function create()
     {
+        $content = [
+            'articles' => Article::all()
+        ];
         //
-        return view('articles.create');
+        return view('articles.create',$content);
     }
 
     /**
@@ -48,8 +52,8 @@ class ArticleController extends Controller
         $article->title = $request->input('title');
         $article->description = $request->input('description');
         $article->order = $request->input('order');
-        $article->pages()->associate($request->page);
-        $path= Storage::putFile("img",$request->file("link"));
+        $article->page()->associate($request->page);
+        $path= $request->file('link')->store('pictures');
         $article->link = $path;
         $article->save();
         return Redirect::route('articles.create');
@@ -77,6 +81,7 @@ class ArticleController extends Controller
         //
         $article=Article::find($id);
         $content = [
+            'articles'=>Article::all(),
             'article' => $article
         ];
         return view('articles.edit', $content);
@@ -92,6 +97,13 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $article=Article::find($id);
+        $article->title=$request->title;
+        $article->page()->associate($request->page);
+        $article->description=$request->description;
+        $article->order=$request->order;
+        $article->update();
+        return Redirect::route('articles.index');
     }
 
     /**
@@ -106,6 +118,6 @@ class ArticleController extends Controller
         $article=Article::find($id);
         Storage::delete($article->link);
         $article->delete();
-        return Redirect::route('pages.index');
+        return Redirect::route('articles.index');
     }
 }

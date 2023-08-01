@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    public function pages(){
+    public function page(){
         return $this->belongsTo(Page::class);
     }
     use HasFactory;

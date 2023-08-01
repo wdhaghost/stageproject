@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class PageController extends Controller
@@ -18,10 +19,12 @@ class PageController extends Controller
     {
         //get all the pages
         $content = [
-            'pages' => Page::all()
+
+            'pages' => Page::all()->sortBy('order')
+            // 'pages' => DB::table('pages')->orderBy('order','asc')->get()
         ];
         //load the view with the pages content
-        return view('pages.index', $content);
+        return view('dashboard', $content);
     }
 
     /**
@@ -44,12 +47,23 @@ class PageController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'title' => 'required|min:3|max:20',
+            'description' => 'required|min:10',
+            'order' => 'required|numeric',
+            
+        ]);
+        
         $page = new Page;
         $page->title = $request->input('title');
         $page->description = $request->input('description');
         $page->order = $request->input('order');
         $page->link = "link";
-        $page->save();
+        if($page->save()){
+            
+            self::createOrder($page->order,$page->id);
+        }
+
         return Redirect::route('pages.create');
     }
 
@@ -62,14 +76,19 @@ class PageController extends Controller
     public function show($id)
     {
         //
-        $page=Page::find($id);
-        $articles=Article::all();
-        $content=[
-            'page'=>$page,
-            'articles'=>$articles->pages
+        $actualPage = Page::find($id);
+        $order = $actualPage->order;
+
+        $prevPage = Page::where('order', $order - 1)->first();
+        $nextPage = Page::where('order', $order + 1)->first();
+        $content = [
+            'actualpage' => $actualPage,
+            'nextpage' => $nextPage,
+            'prevpage' => $prevPage,
+            'articles' => Page::find($id)->articles
         ];
-    
-        return view('pages.show',$content);
+
+        return view('pages.show', $content);
     }
 
     /**
@@ -81,9 +100,9 @@ class PageController extends Controller
     public function edit($id)
     {
         //
-        $page = Page::find($id);
+
         $content = [
-            'page' => $page
+            'actualpage' => Page::find($id)
         ];
         return view('pages.edit', $content);
     }
@@ -98,12 +117,18 @@ class PageController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $page=Page::find($id);
-        $page->title=$request->title;
-        $page->description=$request->description;
-        $page->order=$request->order;
+        $page = Page::find($id);
+
+        if (!self::moveOrder($page->order, $id,$request->order)) {
+            //ajouter un message
+            return Redirect::route('pages.edit', ['id' => $id]);
+        }
+
+        $page->title = $request->title;
+        $page->description = $request->description;
+        $page->order = $request->order;
         $page->update();
-        return Redirect::route('pages.index');
+        return Redirect::route('dashboard');
     }
 
     /**
@@ -115,8 +140,55 @@ class PageController extends Controller
     public function destroy($id)
     {
         //
-        $page=Page::find($id);
+        $page = Page::find($id);
+        if(!self::deleteOrder($page->order,$id)){
+            return Redirect::route('dashboard');
+        };
         $page->delete();
         return Redirect::route('dashboard');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param integer $order
+     * @param integer $newOrder
+     * @param integer $id
+     * @return boolean
+     */
+    private static function createOrder(int $order,int $id): bool
+    {
+        
+            return DB::table('pages')
+            ->where('order','>=',$order)
+            ->whereNotIn('id', [$id])
+            ->increment('order');
+
+    }
+    private static function deleteOrder(int $order,int $id): bool
+    {
+        
+            return DB::table('pages')
+            ->where('order','>=',$order)
+            ->whereNotIn('id', [$id])
+            ->decrement('order');
+
+    }
+
+    private static function moveOrder(int $order,int $id,int $newOrder):bool{
+        if ($newOrder == $order) {
+            return false;
+        }
+        if ($newOrder > $order) {
+            return DB::table('pages')
+                ->whereBetween('order', [$order, $newOrder])
+                ->whereNotIn('id', [$id])
+                ->decrement('order');
+        }
+
+        return DB::table('pages')
+            ->whereBetween('order', [$newOrder, $order])
+            ->whereNotIn('id', [$id])
+            ->increment('order');
     }
 }

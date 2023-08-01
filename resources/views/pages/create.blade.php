@@ -8,7 +8,7 @@
     <div class="max-w-2xl w-full m-auto p-4 rounded-2xl">
 
         <div class="bg-secondary relative p-4 rounded-4xl">
-            <a  class="block absolute top-4 right-8 text-white" href="{{route('pages.index')}}"><i class="fa-solid fa-arrow-left"></i> Retour</a>
+            <a  class="block absolute top-4 right-8 text-white" href="{{route('dashboard')}}"><i class="fa-solid fa-arrow-left"></i> Retour</a>
             <form class="p-4" method="POST" action="{{ route('pages.store') }}">
                 @csrf
 
@@ -16,7 +16,7 @@
                 <div>
                     <x-input-label for="title" :value="__('Titre')" />
 
-                    <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" required autofocus />
+                    <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" required autofocus maxlength="20" />
 
                 </div>
 
@@ -27,7 +27,7 @@
                 </div>
 
 
-                <div class="flexflex-col mt-8">
+                <div class="flex flex-col mt-8">
                     <x-input-label for="order" :value="__('Ordre')" />
                     <select class="rounded-2xl" id="order" name="order">
                         <option value="1">1</option>

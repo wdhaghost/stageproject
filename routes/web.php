@@ -19,16 +19,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/','homepage');
 Route::get('/Pages/{id}',[PageController::class,'show'])->name('pages.show');
-Route::get('/dashboard/pages',[PageController::class,'index'])->middleware(['auth', 'verified'])->name('pages.index');
+Route::get('/dashboard',[PageController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/dashboard/pages/create',[PageController::class,'create'])->middleware(['auth', 'verified'])->name('pages.create');
 Route::post('/dashboard/pages',[PageController::class,'store'])->middleware(['auth', 'verified'])->name('pages.store');
 Route::get('/dashboard/pages/{id}/edit',[PageController::class,'edit'])->middleware(['auth', 'verified'])->name('pages.edit');
 Route::put('/dashboard/pages/{id}',[PageController::class,'update'])->middleware(['auth', 'verified'])->name('pages.update');
 Route::delete('/dashboard/pages/{id}',[PageController::class,'destroy'])->middleware(['auth', 'verified'])->name('pages.destroy');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::get('/dashboard/article',[ArticleController::class,'index'])->middleware(['auth', 'verified'])->name('articles.index');
 Route::get('/dashboard/article/create',[ArticleController::class,'create'])->middleware(['auth', 'verified'])->name('articles.create');

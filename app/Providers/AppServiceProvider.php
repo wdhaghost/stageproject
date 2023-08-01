@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        $content= Page::all();
+        $content= Page::all()->sortBy('order');
         View::share('pages',$content);
     }
 }
