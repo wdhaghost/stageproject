@@ -27,7 +27,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="p-4 w-full h-screen">
+            <main class="p-4 w-full h-full">
                 {{ $slot }}
             </main>
         </div>

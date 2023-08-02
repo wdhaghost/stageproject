@@ -14,6 +14,9 @@ const playBtn = document.getElementById('play-btn')
 const pauseBtn = document.getElementById('pause-btn')
 const slider = document.getElementById('slider');
 const progressBar = document.getElementById('progress-bar')
+const modalBtn = document.getElementById('modal-btn')
+const closeModalBtn = document.getElementById('close-modal-btn')
+const modal = document.getElementById('modal')
 let autoScroll
 
 if (slider != null) {
@@ -45,7 +48,16 @@ if (playBtn != null) {
    })
 }
 
-
+if(modalBtn!=null){
+   modalBtn.addEventListener('click',function(e){
+      modal.classList.remove('hidden')
+   } )
+}
+if(closeModalBtn!=null){
+   closeModalBtn.addEventListener('click',function(e){
+      modal.classList.add('hidden')
+   } )
+}
 
 function display(element) {
    element.classList.toggle('hidden')

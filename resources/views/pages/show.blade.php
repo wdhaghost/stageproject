@@ -43,9 +43,27 @@
                     <i class="fa-sharp fa-solid fa-forward-step"></i>
                     @endif
                 </button>
-                <button class="absolute text-3xl right-2 -bottom-4"><i class="fa-solid fa-ellipsis"></i></button>
+                <button id="modal-btn" class="absolute text-3xl right-2 -bottom-4"><i class="fa-solid fa-ellipsis"></i></button>
             </div>
         </section>
-
+        
     </section>
+    <div id="modal" class=" hidden flex flex-col justify-between absolute  top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-black text-white  w-[300px] h-[500px] rounded-xl px-3 pt-7 pb-3">
+        <button id="close-modal-btn" class="absolute right-4 top-4 text-xl"><i class="fa-solid fa-xmark"></i></button>
+        <div class="h-full flex flex-col gap-4">
+            <p class="font-bold">Coordonnées</p>
+            <ul class="flex flex-col gap-7">
+                <a class="font-light block" href="tel:0689134447">06 89 13 44 47</a>
+                <a class="font-light block" href="https://www.google.com/maps/place/157+Bd+de+Strasbourg,+76600+Le+Havre/" target="_blank">157 Boulevard de Strasbourg,<br> 76610 Le Havre</a>
+                <a class="font-light block" href="mailto:contact@senar.fr">Contact@senar.fr</a>
+            </ul>
+
+        </div>
+        <div class=" flex gap-4">
+            <a class="text-3xl" href="https://https://www.facebook.com/senar972" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+            <a class="text-3xl" href="https://www.tiktok.com/@senar972" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+            <a class="text-3xl" href="https://www.instagram.com/senar972/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a class="text-3xl" href="https://www.youtube.com/@Senar972" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+    </div>
 </x-layout.f-o>
