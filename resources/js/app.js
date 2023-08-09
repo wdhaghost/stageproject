@@ -49,9 +49,9 @@ if (playBtn != null) {
 }
 
 if(modalBtn!=null){
-   modalBtn.addEventListener('click',function(e){
-      modal.classList.remove('hidden')
-   } )
+   modalBtn.addEventListener('click', function (e) {
+      display(modal)
+   })
 }
 if(closeModalBtn!=null){
    closeModalBtn.addEventListener('click',function(e){
@@ -60,7 +60,8 @@ if(closeModalBtn!=null){
 }
 
 function display(element) {
-   element.classList.toggle('hidden')
+   element.classList.toggle('hidden') 
+   console.log(element);
 }
 
 

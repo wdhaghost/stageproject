@@ -48,7 +48,7 @@
         </section>
         
     </section>
-    <div id="modal" class=" hidden flex flex-col justify-between absolute  top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-black text-white  w-[300px] h-[500px] rounded-xl px-3 pt-7 pb-3">
+    <div id="modal" class=" hidden flex flex-col justify-between absolute  top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-black text-white  md:w-[600px] w-[300px] h-[500px] rounded-xl px-3 pt-7 pb-3">
         <button id="close-modal-btn" class="absolute right-4 top-4 text-xl"><i class="fa-solid fa-xmark"></i></button>
         <div class="h-full flex flex-col gap-4">
             <p class="font-bold">Coordonnées</p>
